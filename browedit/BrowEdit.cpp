@@ -794,6 +794,21 @@ void BrowEdit::copyTiles()
 		center += n;
 	center /= activeMapView->map->tileSelection.size();
 	clipboard["center"] = center;
+
+	clipboard["selecteds"] = json::array();
+
+	for (auto n : activeMapView->map->tileSelection)
+	{
+		json tile;
+		int x = n.x;
+		int y = n.y;
+		tile["X"] = x;
+		tile["Y"] = y;
+
+		clipboard["selecteds"].push_back(tile);
+	}
+
+
 	for (auto n : activeMapView->map->tileSelection)
 	{
 		auto c = gnd->cubes[n.x][n.y];
