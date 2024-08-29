@@ -861,6 +861,10 @@ void BrowEdit::copyTiles()
 		}
 	});
 
+	std::string clipboardString = "            \"Browedit\": [";
+
+
+
 
 	ImGui::SetClipboardText(clipboard.dump(1).c_str());
 }
@@ -879,7 +883,23 @@ void BrowEdit::copyGat()
 		cube["pos"] = n - center;
 		clipboard["gats"].push_back(cube);
 	}
-	ImGui::SetClipboardText(clipboard.dump(1).c_str());
+
+	std::string clipboardString = "            \"Browedit\": [";
+	                              
+
+	for (auto n : activeMapView->map->gatSelection)
+	{
+		clipboardString += "\n                \"" + std::to_string(n.x) + "," + std::to_string(n.y) + "\",";
+
+		// remove last comma if last element
+
+		if (n == activeMapView->map->gatSelection.back())
+			clipboardString.pop_back();
+	}
+
+	clipboardString += "\n            ]";
+
+	ImGui::SetClipboardText(clipboardString.c_str());
 }
 void BrowEdit::pasteTiles()
 {
